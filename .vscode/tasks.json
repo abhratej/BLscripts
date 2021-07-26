@@ -1,0 +1,77 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        
+        {
+            "label": "build",
+            "dependsOn":[
+                "airfoilcoordextraction",
+                "airfoilnormalscalculation",
+                "paraviewdataextraction",
+                "bledgecalculation"
+            ],
+            "dependsOrder": "sequence",
+            "group": "build"
+        },
+        
+        {
+            "label": "make output dir",
+            "type": "shell",
+            "command": "if [ ! -d \"./output\" ]; then mkdir output; fi",
+        },
+        
+        {
+            "label": "airfoilcoordextraction",
+            "command": "gfortran",
+            "type": "shell",
+            "args": [
+                    "-Wall",
+                    "-fcheck=all",
+                    "-o",
+                    "./fortran_compile_files/airfoilcoords",
+                    "airfoil_coord_extract.f90"
+            ],
+            "group": "build"
+        },
+
+        {
+            "label": "airfoilnormalscalculation",
+            "command": "gfortran",
+            "type": "shell",
+            "args": [
+                    "-Wall",
+                    "-fcheck=all",
+                    "-o",
+                    "./fortran_compile_files/airfoilnormals",
+                    "airfoil_normals.f90"
+            ],
+            "group": "build"
+        },
+
+        {
+            "label": "paraviewdataextraction",
+            "command": "pvpython",
+            "type": "shell",
+            "args": [
+                    "airfoil_paraview.py"
+            ],
+            "group": "build"
+        },
+
+        {
+            "label": "bledgecalculation",
+            "command": "gfortran",
+            "type": "shell",
+            "args": [
+                    "-Wall",
+                    "-fcheck=all",
+                    "-o",
+                    "./fortran_compile_files/bledge",
+                    "bl_prop_check.f90"
+            ],
+            "group": "build"
+        },
+
+
+    ]
+}
