@@ -59,14 +59,14 @@
         },
 
         {
-            "label": "bledgecalculation",
+            "label": "blquantitiescalculation",
             "command": "gfortran",
             "type": "shell",
             "args": [
                     "-Wall",
                     "-fcheck=all",
                     "-o",
-                    "./fortran_compile_files/bledge",
+                    "./fortran_compile_files/blquantities",
                     "bl_prop_check.f90"
             ],
             "group": "build"
