@@ -5,10 +5,10 @@
         {
             "label": "build",
             "dependsOn":[
-                "airfoilcoordextraction",
-                "airfoilnormalscalculation",
-                "paraviewdataextraction",
-                "bledgecalculation"
+                "airfoilgeometryextraction",
+                "airfoilgeometry",
+                "blquantitiescalculation",
+                "blquantities",
             ],
             "dependsOrder": "sequence",
             "group": "build"
@@ -21,40 +21,25 @@
         },
         
         {
-            "label": "airfoilcoordextraction",
+            "label": "airfoilgeometryextraction",
             "command": "gfortran",
             "type": "shell",
             "args": [
                     "-Wall",
+                    "-Wextra",
                     "-fcheck=all",
                     "-o",
-                    "./fortran_compile_files/airfoilcoords",
-                    "airfoil_coord_extract.f90"
+                    "./fortran_compile_files/airfoilgeometry",
+                    "airfoil_geometry_extract.f90"
             ],
             "group": "build"
         },
 
         {
-            "label": "airfoilnormalscalculation",
-            "command": "gfortran",
+            "label": "airfoilgeometry",
+            "command": "./fortran_compile_files/airfoilgeometry",
             "type": "shell",
-            "args": [
-                    "-Wall",
-                    "-fcheck=all",
-                    "-o",
-                    "./fortran_compile_files/airfoilnormals",
-                    "airfoil_normals.f90"
-            ],
-            "group": "build"
-        },
-
-        {
-            "label": "paraviewdataextraction",
-            "command": "pvpython",
-            "type": "shell",
-            "args": [
-                    "airfoil_paraview.py"
-            ],
+            "args": [],
             "group": "build"
         },
 
@@ -64,10 +49,49 @@
             "type": "shell",
             "args": [
                     "-Wall",
+                    "-Wextra",
                     "-fcheck=all",
                     "-o",
                     "./fortran_compile_files/blquantities",
-                    "bl_prop_check.f90"
+                    "bl_quantities_calculation.f90"
+            ],
+            "group": "build"
+        },
+
+        {
+            "label": "blquantities",
+            "command": "./fortran_compile_files/blquantities",
+            "type": "shell",
+            "args": [],
+            "group": "build"
+        },
+
+        {
+            "label": "rfoilrun",
+            "command": "gfortran",
+            "type": "shell",
+            "args": [
+                    "-Wall",
+                    "-Wextra",
+                    "-fcheck=all",
+                    "-o",
+                    "./fortran_compile_files/rfoilrun",
+                    "rfoil_run.f90"
+            ],
+            "group": "build"
+        },
+
+        {
+            "label": "directoryclean",
+            "command": "gfortran",
+            "type": "shell",
+            "args": [
+                    "-Wall",
+                    "-Wextra",
+                    "-fcheck=all",
+                    "-o",
+                    "./fortran_compile_files/directoryclean",
+                    "directory_clean.f90"
             ],
             "group": "build"
         },

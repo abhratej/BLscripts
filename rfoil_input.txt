@@ -15,13 +15,14 @@ visc
 mach
 0
 vpar
-turb
-1
+xtr
+0.05
+0.05
 show
 
 arbl
 alfa
-0
+10
 svbl
 1
 ./output/rfoildata/bl
