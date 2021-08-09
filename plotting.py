@@ -5,7 +5,7 @@ Created on Tue Jul 27 09:28:08 2021
 @author: sahooa
 """
 %reset -f
-import numpy as np
+# import numpy as np
 import matplotlib.pyplot as plt
 
 with open('./output/airfoil_normals.txt') as airfoilGeometry:
@@ -13,7 +13,7 @@ with open('./output/airfoil_normals.txt') as airfoilGeometry:
 airfoilcoord = []
 for line in data:
     temp = line.split()
-    temp = temp = list(map(float, temp))
+    temp = list(map(float, temp))
     airfoilcoord.append(temp)
     
 x = []
@@ -27,7 +27,7 @@ with open('./output/bl_quantities.txt') as blQuantities:
 blquants = []
 for line in data2:
     temp = line.split()
-    temp = temp = list(map(float, temp))
+    temp = list(map(float, temp))
     blquants.append(temp)
     
 bl_x = []
@@ -45,6 +45,22 @@ for i in range(0, len(blquants), 1):
     delta_1.append(blquants[i][4])
     delta_2.append(blquants[i][5])
     delta_3.append(blquants[i][6])
+    
+with open('./output/rfoildata/rfoilresults.txt') as rfoildata:
+    data = rfoildata.readlines()
+rfoilresults = []
+for line in data:
+    temp = line.split()
+    temp = list(map(float, temp))
+    rfoilresults.append(temp)
+
+rfoil_x = []
+rfoil_delta_1 = []
+rfoil_delta_2 = []
+for i in range(0, len(rfoilresults), 1):
+    rfoil_x.append(rfoilresults[i][0])
+    rfoil_delta_1.append(rfoilresults[i][1])
+    rfoil_delta_2.append(rfoilresults[i][2])
 
 #%% Plotting    
 plt.figure(1)
@@ -56,6 +72,7 @@ plt.ylabel('y')
 plt.plot(x[:], y[:], 'k', label="NACA 0012")
 plt.plot(bl_x[:], bl_y[:], '*b', label="BL Vorticity definition")
 plt.legend(loc="best")
+plt.grid()
 plt.show()
 
 plt.figure(2)
@@ -68,6 +85,33 @@ plt.plot(bl_x[:], delta_1[:], 'k', label=r'${\delta}^{*}$')
 plt.plot(bl_x[:], delta_2[:], 'b', label=r'$\theta$')
 plt.plot(bl_x[:], delta_3[:], 'r', label=r'${\delta}_{k}$')
 plt.legend(loc="best")
+plt.grid()
+plt.show()
+
+plt.figure(3)
+plt.title('AoA=0, Re=6e6')
+plt.xlabel('x')
+# plt.ylabel('${\delta}_{1}$')
+# plt.ylim(-0.1,0.1)
+# plt.xlim(-0.1,1.1)
+plt.plot(bl_x[:], delta_2[:], label=r'$\theta$ from SU2',
+         color='black', linewidth=1, linestyle='solid')
+plt.plot(rfoil_x[:], rfoil_delta_2[:],label=r'$\theta$ from rfoil', 
+         color='black', linewidth=1, linestyle='dashed')
+plt.legend(loc="best")
+plt.grid()
 plt.show()
         
-    
+plt.figure(4)
+plt.title('AoA=0, Re=6e6')
+plt.xlabel('x')
+# plt.ylabel('${\delta}_{1}$')
+# plt.ylim(-0.1,0.1)
+# plt.xlim(-0.1,1.1)
+plt.plot(bl_x[:], delta_1[:],label=r'${\delta}^{*}$ from SU2', 
+         color='black', linewidth=1,linestyle='solid')
+plt.plot(rfoil_x[:], rfoil_delta_1[:],label=r'${\delta}^{*}$ from rfoil', 
+         color='black', linewidth=1, linestyle='dashed')
+plt.legend(loc="best")
+plt.grid()
+plt.show()
