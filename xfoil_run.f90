@@ -1,4 +1,4 @@
-program rfoilrun
+program xfoilrun
     implicit none
 
     LOGICAL :: file_exists
@@ -100,4 +100,4 @@ program rfoilrun
 
     
 
-end program rfoilrun
+end program xfoilrun

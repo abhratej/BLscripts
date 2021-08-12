@@ -5,9 +5,10 @@ program rfoilrun
     CHARACTER(*), PARAMETER :: rfoil_delta_1_file='./output/rfoildata/bl.dst', &
                                 rfoil_delta_2_file='./output/rfoildata/bl.tet', &
                                 rfoil_results_file='./output/rfoildata/rfoilresults.txt'
-    INTEGER, PARAMETER :: nheaderlines=2, ndatapoints_top=512
+    INTEGER, PARAMETER :: nheaderlines=2, ndatapoints=300
     INTEGER :: i, fu, io
-    REAL :: x_rfoil(ndatapoints_top), delta_1_rfoil(ndatapoints_top), delta_2_rfoil(ndatapoints_top), temp
+    REAL :: x_rfoil(ndatapoints), delta_1_aoa0(ndatapoints), delta_1_aoa10(ndatapoints), delta_1_aoa15(ndatapoints), &
+            delta_2_aoa0(ndatapoints), delta_2_aoa10(ndatapoints), delta_2_aoa15(ndatapoints), temp
     
     ! CALL EXECUTE_COMMAND_LINE("mkdir ./output/rfoildata")
     ! CALL EXECUTE_COMMAND_LINE("cmd.exe")
@@ -30,8 +31,9 @@ program rfoilrun
     end do
 
     ! read delta* along airfoil surface
-    do i = 1, ndatapoints_top
-        read(fu,*,iostat=io) x_rfoil(i), delta_1_rfoil(i)
+    do i = 1, ndatapoints
+        read(fu,*,iostat=io) x_rfoil(i), temp, temp, temp, temp, temp, delta_1_aoa0(i), temp, temp, temp, temp, temp, temp, temp, &
+                        temp, temp, delta_1_aoa10(i), temp, temp, temp, temp, temp, temp, temp, temp, temp, temp, delta_1_aoa15(i)
     end do
 
     CLOSE(fu)
@@ -52,8 +54,9 @@ program rfoilrun
     end do
     
     ! read theta
-    do i = 1, ndatapoints_top
-        READ(fu,*,iostat=io) temp, delta_2_rfoil(i)
+    do i = 1, ndatapoints
+        READ(fu,*,iostat=io) temp, temp, temp, temp, temp, temp, delta_2_aoa0(i), temp, temp, temp, temp, temp, temp, temp, &
+                        temp, temp, delta_2_aoa10(i), temp, temp, temp, temp, temp, temp, temp, temp, temp, temp, delta_2_aoa15(i)
     end do
 
     CLOSE(fu)
@@ -63,8 +66,9 @@ program rfoilrun
         print *, 'Warning: ',rfoil_results_file,' already exists, will be replaced'
     end if
     open(action='write', file=rfoil_results_file, iostat=io, newunit=fu, status='replace')
-    do i = 1, ndatapoints_top
-        write(fu,*,iostat=io) x_rfoil(i), delta_1_rfoil(i), delta_2_rfoil(i)
+    do i = 1, ndatapoints
+        write(fu,*,iostat=io) x_rfoil(i), delta_1_aoa0(i), delta_2_aoa0(i), delta_1_aoa10(i), delta_2_aoa10(i), delta_1_aoa15(i), &
+                                delta_2_aoa15(i)
     end do
     close(fu)
 
